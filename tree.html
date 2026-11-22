@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Skrivni Božiček 2026 – Božično drevesce 🎄</title>
+  <style>
+    :root {
+      --wine: #6d1424;
+      --wine-dark: #2a050c;
+      --gold: #f6cf6a;
+      --brass: #d4a73c;
+      --cream: #fff8ec;
+      --ink: #3b2414;
+      --pine: #1f7d47;
+      --script: "Snell Roundhand", "Apple Chancery", "Segoe Script", "Lucida Handwriting", "Brush Script MT", cursive;
+    }
+
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      color: var(--cream);
+      background:
+        radial-gradient(rgba(246, 207, 106, .10) 1px, transparent 1.6px) 0 0 / 24px 24px,
+        radial-gradient(ellipse at 50% 30%, #9b2437 0%, var(--wine) 45%, var(--wine-dark) 100%);
+      background-attachment: fixed;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+    }
+
+    header, main, footer {
+      width: 100%;
+      max-width: 640px;
+      padding: 0 16px;
+      text-align: center;
+    }
+    header { padding-top: 40px; }
+
+    h1 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.2rem, 7vw, 3.3rem);
+      color: var(--gold);
+      text-shadow: 0 2px 0 #7a4e00, 0 0 24px rgba(246, 207, 106, .35);
+    }
+    .subtitle { margin: 10px 0 0; font-size: 1.1rem; opacity: .9; }
+
+    footer {
+      margin-top: auto;
+      padding: 28px 16px 24px;
+      opacity: .75;
+      font-size: .95rem;
+    }
+
+    /* ---------- The tree (positions are % of the tree box) ---------- */
+    .tree {
+      position: relative;
+      width: min(92vw, 440px);
+      aspect-ratio: 4 / 5;
+      margin: 40px auto 0;
+      container-type: inline-size;
+    }
+    .tree > * { position: absolute; }
+
+    .tier {
+      clip-path: polygon(50% 0, 100% 100%, 0 100%);
+      background:
+        linear-gradient(to top, rgba(0, 0, 0, .3), transparent 28%),
+        linear-gradient(100deg, #3cab6d 0%, var(--pine) 45%, #0e4a28 100%);
+    }
+    .tier-1 { left: 24%; width: 52%; top: 7%;  height: 33%; z-index: 3; }
+    .tier-2 { left: 13%; width: 74%; top: 25%; height: 39%; z-index: 2; }
+    .tier-3 { left: 2%;  width: 96%; top: 46%; height: 42%; z-index: 1; }
+
+    .trunk {
+      left: 43.5%; width: 13%; top: 87%; height: 10%;
+      border-radius: 0 0 4px 4px;
+      background: linear-gradient(90deg, #4a2c12, #8b5a2b 50%, #4a2c12);
+    }
+    .floor {
+      left: 4%; right: 4%; bottom: 0; height: 7%;
+      background: radial-gradient(closest-side, rgba(0, 0, 0, .55), transparent);
+    }
+    .gifts {
+      left: 0; right: 0; bottom: 1%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20%;
+      font-size: 9cqw;
+      line-height: 1;
+      z-index: 4;
+    }
+
+    .star {
+      left: 50%; top: 0; width: 15%; aspect-ratio: 1;
+      translate: -50% -20%;
+      z-index: 5;
+      filter: drop-shadow(0 0 8px #ffd54f) drop-shadow(0 0 18px rgba(255, 179, 0, .7));
+      animation: star-glow 2.4s ease-in-out infinite alternate;
+    }
+    .star::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+      background: linear-gradient(160deg, #fffbe0, #ffd54f 45%, #e09b00);
+    }
+    @keyframes star-glow {
+      to { scale: 1.08; filter: drop-shadow(0 0 14px #ffe082) drop-shadow(0 0 32px #ffb300); }
+    }
+
+    .light {
+      width: 2.2cqw;
+      aspect-ratio: 1;
+      translate: -50% -50%;
+      border-radius: 50%;
+      background: var(--c);
+      box-shadow: 0 0 1.2cqw .4cqw var(--c);
+      z-index: 4;
+      animation: twinkle var(--speed) ease-in-out var(--delay) infinite alternate;
+    }
+    @keyframes twinkle { to { opacity: .25; } }
+
+    /* ---------- Baubles (one per person) ---------- */
+    .bauble {
+      left: var(--x);
+      top: var(--y);
+      width: calc(var(--size) * 1%);
+      aspect-ratio: 1;
+      translate: -50% -50%;
+      z-index: 6;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      font: 700 calc(var(--size) * .2cqw) / 1 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      color: var(--ink-on);
+      text-shadow: 0 1px 2px color-mix(in srgb, var(--c), #000 50%);
+      background:
+        radial-gradient(circle at 32% 28%, rgba(255, 255, 255, .9) 0 4%, rgba(255, 255, 255, 0) 24%),
+        radial-gradient(circle at 45% 40%, var(--c) 0 40%, color-mix(in srgb, var(--c), #000 45%) 100%);
+      box-shadow: 0 .8cqw 1.6cqw rgba(0, 0, 0, .45);
+      cursor: pointer;
+      transform-origin: 50% -40%;
+      animation: sway 3.6s ease-in-out var(--delay) infinite alternate;
+      transition: scale .2s ease, box-shadow .2s ease;
+    }
+    .bauble::before {               /* gold cap */
+      content: "";
+      position: absolute;
+      left: 50%; top: -6%;
+      width: 28%; height: 12%;
+      translate: -50% 0;
+      border-radius: 2px 2px 1px 1px;
+      background: linear-gradient(90deg, #9c7a1c, #ffe9a6 45%, #b8860b);
+    }
+    .bauble::after {                /* string up to the branch */
+      content: "";
+      position: absolute;
+      left: 50%; bottom: 105%;
+      width: 2px; height: 30%;
+      translate: -50% 0;
+      background: rgba(255, 233, 166, .75);
+    }
+    .bauble:hover, .bauble:focus-visible {
+      scale: 1.1;
+      box-shadow: 0 0 2.4cqw .6cqw color-mix(in srgb, var(--c), transparent 35%);
+    }
+    .bauble:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+    @keyframes sway { from { rotate: -5deg; } to { rotate: 5deg; } }
+
+    /* ---------- Gift tag (result) ---------- */
+    dialog {
+      width: min(92vw, 400px);
+      padding: 0 0 12px;
+      border: 0;
+      background: transparent;
+      color: var(--ink);
+      filter: drop-shadow(0 18px 28px rgba(0, 0, 0, .55));
+    }
+    dialog::backdrop {
+      background: rgba(30, 2, 8, .7);
+      backdrop-filter: blur(3px);
+    }
+    dialog[open] {
+      transform-origin: 50% 0;
+      animation: swing-in .8s ease-out both;
+    }
+    @keyframes swing-in {
+      from { opacity: 0; transform: translateY(-60px) rotate(-12deg); }
+      55%  { opacity: 1; transform: rotate(5deg); }
+      80%  { transform: rotate(-2deg); }
+      to   { transform: none; }
+    }
+
+    .string {
+      display: block;
+      position: relative;
+      z-index: 1;
+      width: 3px; height: 90px;
+      margin: 0 auto -30px;
+      border-radius: 2px;
+      background: linear-gradient(transparent, #ff5a5f 45%, #b71c1c);
+    }
+    .tag {
+      position: relative;
+      margin: 0;
+      padding: 56px 24px 26px;
+      text-align: center;
+      background:
+        repeating-linear-gradient(90deg, rgba(110, 70, 20, .035) 0 2px, transparent 2px 6px),
+        linear-gradient(165deg, #f3e2bd, #e1c48d);
+      clip-path: polygon(64px 0, calc(100% - 64px) 0, 100% 48px, 100% 100%, 0 100%, 0 48px);
+    }
+    .tag::before {                  /* metal eyelet */
+      content: "";
+      position: absolute;
+      left: 50%; top: 16px;
+      width: 26px; height: 26px;
+      translate: -50% 0;
+      border-radius: 50%;
+      background: var(--wine-dark);
+      border: 5px solid var(--brass);
+    }
+    .hello { margin: 0; font-size: 1.1rem; }
+    .field {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 12px;
+      margin: 12px 0 0;
+      font-size: 1.05rem;
+    }
+    .key {
+      font-variant: small-caps;
+      letter-spacing: .08em;
+      color: #7a5a35;
+    }
+    .recipient {
+      font-family: var(--script);
+      font-size: 2.7rem;
+      line-height: 1.15;
+      color: #a3172b;
+    }
+    .from small { color: #7a5a35; font-size: .9rem; }
+    .divider {
+      margin: 18px 0;
+      border: 0;
+      border-top: 2px dashed rgba(90, 55, 20, .3);
+    }
+    .wishes h2 { margin: 0 0 8px; font-size: 1rem; }
+    .wishes ul { margin: 0; padding: 0; list-style: none; text-align: left; }
+    .wishes li {
+      padding: 8px 12px;
+      margin-bottom: 6px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .45);
+    }
+    .wishes li::before { content: "🎁 "; content: "🎁 " / ""; }
+    .no-wishes { margin: 0; }
+    .budget {
+      display: inline-block;
+      margin: 16px 0 0;
+      padding: 7px 16px;
+      border-radius: 999px;
+      background: var(--pine);
+      color: var(--gold);
+      font-weight: 700;
+    }
+    .close {
+      display: block;
+      margin: 20px auto 0;
+      padding: 11px 22px;
+      border: 2px solid var(--brass);
+      border-radius: 999px;
+      background: var(--wine);
+      color: var(--cream);
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .close:hover { background: #85192c; }
+    .close:focus-visible { outline: 3px solid var(--wine); outline-offset: 3px; }
+    .tag:focus { outline: none; }
+
+    /* ---------- Secret code: asked before the tag opens ---------- */
+    .lock-title {
+      margin: 0;
+      font-family: var(--script);
+      font-size: 2.1rem;
+      line-height: 1.2;
+      color: #a3172b;
+    }
+    .lock p:not(.lock-title), .naughty p:not(.lock-title) { margin: 10px 0 0; }
+    .code-label { display: block; margin: 16px 0 6px; }
+    .lock .code-error { color: #a3172b; font-weight: 600; }
+    .code {
+      display: block;
+      width: 6.4em;
+      margin: 0 auto;
+      padding: 8px 0 8px .5em;                 /* the extra left padding balances the letter spacing */
+      border: 2px dashed rgba(122, 90, 53, .6);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, .5);
+      color: #a3172b;
+      font: 700 2rem / 1.1 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      letter-spacing: .5em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .code::placeholder { color: rgba(163, 23, 43, .3); }
+    .code:focus { outline: none; border-style: solid; border-color: #a3172b; box-shadow: 0 0 0 4px rgba(163, 23, 43, .15); }
+    .later {
+      display: block;
+      margin: 6px auto 0;
+      padding: 8px 14px;
+      border: 0;
+      background: none;
+      color: #7a5a35;
+      font: inherit;
+      font-size: .95rem;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      cursor: pointer;
+    }
+    .later:hover { color: var(--ink); }
+    .later:focus-visible { outline: 3px solid var(--wine); outline-offset: 2px; border-radius: 6px; }
+    .naughty .small { font-size: .92rem; font-style: italic; color: #7a5a35; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .star, .light, .bauble, dialog[open] { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🎄 Skrivni Božiček 2026</h1>
+    <p class="subtitle">Poišči kroglico s svojim imenom in pritisni nanjo</p>
+  </header>
+
+  <main>
+    <div class="tree" id="tree">
+      <div class="floor" aria-hidden="true"></div>
+      <div class="tier tier-3" aria-hidden="true"></div>
+      <div class="tier tier-2" aria-hidden="true"></div>
+      <div class="tier tier-1" aria-hidden="true"></div>
+      <div class="trunk" aria-hidden="true"></div>
+      <div class="star" aria-hidden="true"></div>
+      <div class="gifts" aria-hidden="true"><span>🎁</span><span>🎁</span></div>
+    </div>
+  </main>
+
+  <dialog id="tag-dialog" aria-labelledby="lock-title">
+    <span class="string" aria-hidden="true"></span>
+    <!-- 1. The secret code: the tag opens only with the code Božiček sent. -->
+    <form class="tag lock" id="lock">
+      <p class="lock-title" id="lock-title"></p>
+      <p>Je ta kroglica tvoja? Vpiši skrivno kodo, ki ti jo je poslal Božiček.</p>
+      <label class="key code-label" for="code">Skrivna koda</label>
+      <input class="code" id="code" required maxlength="4" placeholder="····" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" enterkeyhint="go" autofocus>
+      <p class="code-error" id="code-error" role="alert" hidden></p>
+      <button class="close">Odpri listek 🎁</button>
+      <button type="button" class="later" data-close>Nazaj k drevescu</button>
+    </form>
+    <!-- 2. The third wrong code lands you on the naughty list. -->
+    <div class="tag naughty" id="naughty" role="alert" hidden>
+      <p class="lock-title">Ojoj, to ni prava koda!</p>
+      <p>Kdor brska po tujih skrivnostih, je poreden! Božiček vse vidi in te je pravkar zapisal na seznam porednih, zato letos pod jelko morda ne bo darila zate.</p>
+      <p class="small">Je kroglica res tvoja? Preveri kodo in poskusi znova.</p>
+      <button type="button" class="close" id="naughty-back" data-close>Nazaj k drevescu 🎄</button>
+    </div>
+    <!-- 3. The gift tag. -->
+    <form method="dialog" class="tag" id="tag" tabindex="-1" hidden>
+      <p class="hello" id="tag-hello"></p>
+      <p class="field"><span class="key">Za</span><span class="recipient" id="recipient"></span></p>
+      <p class="field from"><span class="key">Od</span><span>Skrivni Božiček <small>– to si ti! 🤫</small></span></p>
+      <hr class="divider">
+      <div class="wishes" id="wishes" hidden>
+        <h2 id="wishes-title"></h2>
+        <ul id="wish-list"></ul>
+      </div>
+      <p class="no-wishes" id="no-wishes" hidden></p>
+      <p class="budget" id="budget"></p>
+      <button class="close">Nazaj k drevescu 🎄</button>
+    </form>
+  </dialog>
+
+  <footer>🤫 Pssst … naj ostane skrivnost! Vesel božič! 🎅</footer>
+
+  <script src="santa.js"></script>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const tree = $("tree");
+    const dialog = $("tag-dialog");
+
+    // The three tiers of the tree in % of the tree box (must match the CSS),
+    // the height of each tier's row of baubles, and how many lights it gets.
+    const TIERS = [
+      { top: 7,  bottom: 40, half: 26, baubleRow: 32, lights: 8 },
+      { top: 25, bottom: 64, half: 37, baubleRow: 55, lights: 12 },
+      { top: 46, bottom: 88, half: 48, baubleRow: 78, lights: 16 },
+    ];
+    const halfWidthAt = (tier, y) => tier.half * (y - tier.top) / (tier.bottom - tier.top);
+
+    const BAUBLE_COLORS = [ // [bauble, text]
+      ["#d32f2f", "#fff"], ["#f2c14e", "#4a2c00"], ["#1e5bd8", "#fff"], ["#cfd8dc", "#263238"],
+      ["#7b1fa2", "#fff"], ["#d81b60", "#fff"], ["#e65100", "#fff"], ["#4fc3f7", "#06303f"],
+    ];
+    const LIGHT_COLORS = ["#ffd54f", "#ff5252", "#69f0ae", "#40c4ff", "#ff80ab"];
+
+    // Twinkling fairy lights scattered over the branches.
+    TIERS.forEach((tier, t) => {
+      for (let i = 0; i < tier.lights; i++) {
+        const y = tier.top + (0.3 + Math.random() * 0.65) * (tier.bottom - tier.top);
+        const x = 50 + (Math.random() * 2 - 1) * halfWidthAt(tier, y) * 0.8;
+        const light = document.createElement("span");
+        light.className = "light";
+        light.style.left = `${x}%`;
+        light.style.top = `${y}%`;
+        light.style.setProperty("--c", LIGHT_COLORS[(i + t) % LIGHT_COLORS.length]);
+        light.style.setProperty("--speed", `${0.8 + Math.random() * 1.4}s`);
+        light.style.setProperty("--delay", `${-Math.random() * 2}s`);
+        tree.append(light);
+      }
+    });
+
+    // One row of baubles per tier, more on the wider lower tiers. Each bauble
+    // gets an equal slice of its row; they all shrink if a row gets crowded.
+    const perRow = [Math.round(PARTICIPANTS.length / 4), Math.round(PARTICIPANTS.length * 3 / 8)];
+    perRow.push(PARTICIPANTS.length - perRow[0] - perRow[1]);
+    const spots = [];
+    let baubleSize = 18;
+    TIERS.forEach((tier, t) => {
+      const half = halfWidthAt(tier, tier.baubleRow);
+      const slice = (2 * half) / perRow[t];
+      baubleSize = Math.min(baubleSize, slice - 1);
+      for (let i = 0; i < perRow[t]; i++) {
+        spots.push({ x: 50 - half + slice * (i + 0.5), y: tier.baubleRow });
+      }
+    });
+
+    PARTICIPANTS.forEach((name, i) => {
+      const [color, ink] = BAUBLE_COLORS[i % BAUBLE_COLORS.length];
+      const bauble = document.createElement("button");
+      bauble.type = "button";
+      bauble.className = "bauble";
+      bauble.textContent = name;
+      bauble.style.cssText =
+        `--x:${spots[i].x}%; --y:${spots[i].y}%; --size:${baubleSize}; ` +
+        `--c:${color}; --ink-on:${ink}; --delay:${-Math.random() * 3.6}s`;
+      bauble.addEventListener("click", () => askCode(name));
+      tree.append(bauble);
+    });
+
+    // A bauble first asks for the secret code; only the right one opens the gift tag.
+    const lock = $("lock"), codeInput = $("code"), codeError = $("code-error"), naughty = $("naughty"), tag = $("tag");
+    const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
+    // The first two wrong codes only warn; the third lands you on the naughty list.
+    const WARNINGS = [
+      "To ni prava koda. Imaš še dva poskusa.",
+      "Spet narobe! Imaš še en poskus, potem te Božiček zapiše na seznam porednih.",
+    ];
+    const SHAKE = [0, -12, 10, -6, 4, 0].map((x) => ({ transform: `translateX(${x}px)` }));
+    let owner = null;                     // whose bauble is open
+    let wrongTries = 0;
+
+    function askCode(name) {
+      owner = name;
+      $("lock-title").textContent = `Listek za ${accusative(name)}`;
+      codeInput.value = "";
+      codeError.hidden = true;
+      wrongTries = 0;
+      showCard(lock);
+      dialog.showModal();
+    }
+
+    // The dialog shows one card at a time: the code, the naughty list or the gift tag.
+    function showCard(card) {
+      for (const each of [lock, naughty, tag]) each.hidden = each !== card;
+      dialog.setAttribute("aria-labelledby", card === tag ? "tag-hello" : "lock-title");
+    }
+
+    lock.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (isSecretCode(owner, codeInput.value)) {
+        fillTag(owner);
+        showCard(tag);
+        tag.focus();
+        if (!reduceMotion.matches) tag.animate([{ opacity: 0, transform: "scale(.92)" }, { opacity: 1, transform: "none" }], { duration: 400, easing: "ease-out" });
+      } else if (++wrongTries <= WARNINGS.length) {
+        codeError.textContent = WARNINGS[wrongTries - 1];
+        codeError.hidden = false;
+        codeInput.focus();
+        codeInput.select();
+        if (!reduceMotion.matches) lock.animate(SHAKE, { duration: 500 });
+      } else {
+        showCard(naughty);
+        $("naughty-back").focus();
+        if (!reduceMotion.matches) naughty.animate(SHAKE, { duration: 500 });
+      }
+    });
+    for (const button of dialog.querySelectorAll("[data-close]")) button.addEventListener("click", () => dialog.close());
+
+    function fillTag(giver) {
+      const { recipient, wishes } = secretSantaFor(giver);
+      $("tag-hello").textContent = `Živjo, ${giver}! 🎅 Tole je tvoj listek za darilo:`;
+      $("recipient").textContent = recipient;
+
+      $("wishes").hidden = wishes.length === 0;
+      $("no-wishes").hidden = wishes.length > 0;
+      if (wishes.length > 0) {
+        $("wishes-title").textContent = `${recipient} si želi:`;
+        $("wish-list").replaceChildren(...wishes.map((wish) => {
+          const li = document.createElement("li");
+          li.textContent = wish;
+          return li;
+        }));
+      } else {
+        $("no-wishes").textContent = `${recipient} nima zapisanih želja – pripravi presenečenje! 🎁`;
+      }
+      $("budget").textContent = `💶 Proračun: do ${BUDGET_EUR} €`;
+    }
+
+    // Clicking outside the tag closes it too.
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+  </script>
+</body>
+</html>
