@@ -21,6 +21,8 @@ const WISHLISTS = {
   Jure:   [],
   Mateja: [],
   Nejc:   [],
+  Gaja:   [],
+  Nela:   [],
 };
 
 // Each name in the accusative, as the letter uses it after "za":
@@ -34,6 +36,8 @@ const ACCUSATIVE = {
   Jure:   "Jureta",
   Mateja: "Matejo",
   Nejc:   "Nejca",
+  Gaja:   "Gajo",
+  Nela:   "Nelo",
 };
 
 // Božiček's secret codes. Send each person only their own code in a private
@@ -48,6 +52,8 @@ const CODES = {
   Jure:   "BUPV",
   Mateja: "VHDH",
   Nejc:   "DNDP",
+  Gaja:   "EPSM",
+  Nela:   "NFSF",
 };
 
 // Pairs who never draw each other: neither of the two buys a present for the
@@ -62,7 +68,7 @@ const KEEP_APART = [
 
 // The draw is fully determined by this text: same text = same pairs on every
 // visit and every device. Change it only if you want a completely new draw.
-const SEED = "santa-2026-9965464a67358b22";
+const SEED = "santa-2026-43b13fe2172d5ab3";
 
 // ---------------- The draw (no need to edit below) ----------------
 

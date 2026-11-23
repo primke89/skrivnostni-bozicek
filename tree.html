@@ -409,9 +409,18 @@
     ];
     const halfWidthAt = (tier, y) => tier.half * (y - tier.top) / (tier.bottom - tier.top);
 
+    // Colour of each bauble and its name, in the order of the names in santa.js.
     const BAUBLE_COLORS = [ // [bauble, text]
-      ["#d32f2f", "#fff"], ["#f2c14e", "#4a2c00"], ["#1e5bd8", "#fff"], ["#cfd8dc", "#263238"],
-      ["#7b1fa2", "#fff"], ["#d81b60", "#fff"], ["#e65100", "#fff"], ["#4fc3f7", "#06303f"],
+      ["#d32f2f", "#fff"],      // Primoz – red
+      ["#d81b60", "#fff"],      // Ana – pink
+      ["#1e5bd8", "#fff"],      // Tina – blue
+      ["#cfd8dc", "#263238"],   // Miran – silver
+      ["#7b1fa2", "#fff"],      // Jozica – purple
+      ["#f2c14e", "#4a2c00"],   // Jure – gold
+      ["#e65100", "#fff"],      // Mateja – orange
+      ["#4fc3f7", "#06303f"],   // Nejc – light blue
+      ["#7cb342", "#1f3a06"],   // Gaja – green
+      ["#9a5530", "#fff"],      // Nela – copper
     ];
     const LIGHT_COLORS = ["#ffd54f", "#ff5252", "#69f0ae", "#40c4ff", "#ff80ab"];
 
@@ -431,18 +440,24 @@
       }
     });
 
-    // One row of baubles per tier, more on the wider lower tiers. Each bauble
-    // gets an equal slice of its row; they all shrink if a row gets crowded.
-    const perRow = [Math.round(PARTICIPANTS.length / 4), Math.round(PARTICIPANTS.length * 3 / 8)];
-    perRow.push(PARTICIPANTS.length - perRow[0] - perRow[1]);
+    // One row of baubles per tier. Each bauble goes to the row with the most room
+    // per bauble, so the wider lower tiers get more. Each bauble gets an equal
+    // slice of its row; they all shrink if a row gets crowded.
+    const rowWidths = TIERS.map((tier) => 2 * halfWidthAt(tier, tier.baubleRow));
+    const perRow = TIERS.map(() => 0);
+    const room = (t) => rowWidths[t] / (perRow[t] + 1);   // slice width if row t got one more
+    PARTICIPANTS.forEach(() => {
+      let roomiest = 0;
+      for (let t = 1; t < TIERS.length; t++) if (room(t) > room(roomiest)) roomiest = t;
+      perRow[roomiest]++;
+    });
     const spots = [];
     let baubleSize = 18;
     TIERS.forEach((tier, t) => {
-      const half = halfWidthAt(tier, tier.baubleRow);
-      const slice = (2 * half) / perRow[t];
+      const slice = rowWidths[t] / perRow[t];
       baubleSize = Math.min(baubleSize, slice - 1);
       for (let i = 0; i < perRow[t]; i++) {
-        spots.push({ x: 50 - half + slice * (i + 0.5), y: tier.baubleRow });
+        spots.push({ x: 50 - rowWidths[t] / 2 + slice * (i + 0.5), y: tier.baubleRow });
       }
     });
 
